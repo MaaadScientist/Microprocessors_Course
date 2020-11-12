@@ -1,0 +1,8 @@
+main.c:196:5:main	32	static
+main.c:283:6:systick_handler	8	static
+main.c:288:6:init_systick	16	static
+main.c:306:6:delay_ms	16	static
+main.c:313:6:digit	24	static
+main.c:334:6:display	24	static
+main.c:343:5:bin2bcd	24	static
+main.c:356:6:num2time	24	static
