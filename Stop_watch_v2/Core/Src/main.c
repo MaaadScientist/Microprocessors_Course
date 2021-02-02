@@ -5,6 +5,7 @@
  *
  * Realising Stopwatch with polling
  * Still trying to implement interrupts
+ * lack precision on incrementation time
  */
 
 
@@ -174,25 +175,25 @@ int main(void)
 	initTIM2();
 	//init_systick(1000, 0);
 
-	uint32_t count = 0;
+	uint32_t t = 0;
 	uint32_t x;
-	int button_state = 0;
-	int last_state = 1; // 0 -> run ; 1-> stop; 2-> reset
+	int button_st = 0;
+	int last_st = 1; // 0 -> run ; 1-> stop; 2-> reset
 
 
 	while (1) {
 		/* what is the button state ?  */
 		if (getbit(TIM2->SR, 0))
 		{
-			switch(button_state)
+			switch(button_st)
 			{
 			case 0:
-				count++;
+				t++;
 				break;
 			case 1:
 				break;
 			case 2:
-				count = 0;
+				t = 0;
 				break;
 			}
 			/* set status bit back to log 0 */
@@ -201,19 +202,19 @@ int main(void)
 
 		if (getbit(*GPIOA_IDR, 4) == 0)
 		{
-			if (last_state == 0) {
-				button_state++;
-				if (button_state > 2)
-					button_state = 0;
+			if (last_st == 0) {
+				button_st++;
+				if (button_st > 2)
+					button_st = 0;
 			}
 
 		}
 
 		//if (getbit(*GPIOA_IDR,1) == 0)
 
-		last_state = getbit(*GPIOA_IDR, 4);
+		last_st = getbit(*GPIOA_IDR, 4);
 
-		x = bin2bcd(count);
+		x = bin2bcd(t);
 		display(x >> 12 & 0x0f, x >> 8 & 0x0f, x >> 4 & 0x0f, x & 0x0f);
 	}
 }
