@@ -19,7 +19,7 @@
  * - address are in unsigned long format
  */
 
-// useful macros to set/clear bit of the nuber at given address
+// useful macros to set/clear bit of the number at given address
 #define setbit(reg,bit) ((reg) |= (1U << (bit)))
 #define clearbit(reg,bit) ((reg) &= (~(1U << (bit))))
 
@@ -35,8 +35,9 @@
 
 // RCC base address (pp. 38)
 #define RCC_BASE 	(PERIPH_BASE + 0x23800)
-// RCC_APB1ENR offset (pp. 118)
+// RCC_AHB1ENR offset (pp. 118)
 #define RCC_APB1ENR	((unsigned long *)(RCC_BASE + 0x30))
+
 
 // GPIOA base address
 #define GPIOA_BASE	(PERIPH_BASE + 0x20000)
@@ -44,6 +45,15 @@
 #define GPIOA_MODER ((unsigned long *)(GPIOA_BASE + 0x00))
 // ODR address
 #define GPIOA_ODR 	((unsigned long *)(GPIOA_BASE + 0x14))
+
+
+// GPIOB base address
+#define GPIOB_BASE	(PERIPH_BASE + 0x20400)
+// MODER address
+#define GPIOB_MODER ((unsigned long *)(GPIOB_BASE + 0x00))
+// ODR address
+#define GPIOB_ODR 	((unsigned long *)(GPIOB_BASE + 0x14))
+
 
 // function prototypes
 int main(void);
@@ -69,13 +79,22 @@ unsigned long *vector_table[] __attribute__((section(".isr_vector"))) = {
 
 int main() {
     // enable GPIOA clock
-    *RCC_APB1ENR = 0x1; // + GPIOA? 0x03
+    *RCC_APB1ENR = 0x3; // + GPIOA? 0x03
+    // enable GPIOB clock
+    //*RCC_APB1ENR = 0x1; // + GPIOA? 0x03
     // change mode of 5 - MODER[11:10] = 0x01
     setbit(*GPIOA_MODER, 10);
     // change mode of 6 - MODER[13:12] = 0x01
     setbit(*GPIOA_MODER, 12);
+    // change mode of 7 - MODER[13:12] = 0x01
+    setbit(*GPIOA_MODER, 14);
+    //*RCC_APB1ENR = 0x2; // + GPIOA? 0x03
+    // change mode of 6 - MODER[13:12] = 0x01
+    setbit(*GPIOB_MODER, 12);
 
     while(1) {
+
+  //---------------------------forward-----------------------------------------------------------
     	setbit(*GPIOA_ODR, 5);
         delay(200000);
     	clearbit(*GPIOA_ODR, 5);
@@ -84,7 +103,36 @@ int main() {
         delay(200000);
         clearbit(*GPIOA_ODR, 6);
         delay(200000);
+        setbit(*GPIOA_ODR, 7);
+        delay(200000);
+        clearbit(*GPIOA_ODR, 7);
+        delay(200000);
+        setbit(*GPIOB_ODR, 6);
+        delay(200000);
+        clearbit(*GPIOB_ODR, 6);
+        delay(200000);
 
+ //-------------------------backward-------------------------------------------------------------
+
+        setbit(*GPIOB_ODR, 6);
+        delay(200000);
+        clearbit(*GPIOB_ODR, 6);
+        delay(200000);
+
+        setbit(*GPIOA_ODR, 7);
+        delay(200000);
+        clearbit(*GPIOA_ODR, 7);
+        delay(200000);
+
+        setbit(*GPIOA_ODR, 6);
+        delay(200000);
+        clearbit(*GPIOA_ODR, 6);
+        delay(200000);
+
+        setbit(*GPIOA_ODR, 5);
+        delay(200000);
+        clearbit(*GPIOA_ODR, 5);
+        delay(200000);
     }
 }
 

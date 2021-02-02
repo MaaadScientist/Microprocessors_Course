@@ -1,0 +1,8 @@
+main.c:69:6:ledConfig	4	static
+main.c:74:6:initTIM2	4	static
+main.c:87:6:systick_handler	4	static
+main.c:90:6:init_systick	16	static
+main.c:108:6:digit	24	static
+main.c:133:6:display	24	static
+main.c:143:5:bin2bcd	24	static
+main.c:156:5:main	24	static

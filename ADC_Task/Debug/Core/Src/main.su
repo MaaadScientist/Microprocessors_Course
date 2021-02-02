@@ -1,0 +1,11 @@
+main.c:17:6:initGPIO	4	static
+main.c:26:6:initADC1	4	static
+main.c:64:6:sendChar	16	static
+main.c:70:6:receiveChar	16	static
+main.c:79:6:delay	24	static
+main.c:85:6:usart_tx	16	static
+main.c:91:5:usart_rx	16	static
+main.c:106:6:serialInit	4	static
+main.c:128:6:sendString	24	static
+main.c:138:7:pos2vol	32	static
+main.c:153:5:main	32	static
