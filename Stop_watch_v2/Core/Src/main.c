@@ -79,7 +79,7 @@ void initTIM2(void)
      */
     setbit(RCC->APB1ENR, 0);  /* enable Clock for TIM2 */
     TIM2->PSC = 16000;            /* prescaler - fill according your needs */
-    TIM2->ARR = 1000;            /* autoreload - fill according your needs */
+    TIM2->ARR = 450;            /* autoreload - fill according your needs */
     setbit(TIM2->CR1, 0);     /* enable TIM2 */
     clearbit(TIM2->SR, 0);    /* status TIM2 */
 }
